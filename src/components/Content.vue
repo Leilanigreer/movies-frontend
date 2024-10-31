@@ -5,15 +5,21 @@ axios.defaults.headers.post = axios.defaults.headers.patch = {
   };
 import MoviesIndex from "./MoviesIndex.vue"
 import MoviesNew from "./MoviesNew.vue"
+import MoviesShow from "./MoviesShow.vue";
+import Modal from "./Modal.vue"
 
 export default {
   components: {
     MoviesIndex,
     MoviesNew,
+    MoviesShow,
+    Modal,
   },
   data: function () {
     return {
       movies: [],
+      currentMovie: {},
+      isMoviesShowVisible: false,
     };
   },
   created: function () {
@@ -37,6 +43,14 @@ export default {
           console.log("movies create error", error.response);
         });
     },
+    handleShowMovie: function (movie) {
+      console.log ("handleShowMovie", movie);
+      this.currentMovie = movie;
+      this.isMoviesShowVisible = true;
+    },
+    handleClose: function () {
+      this.isMoviesShowVisible = false;
+    },
   },
 };
 </script>
@@ -44,7 +58,10 @@ export default {
 <template>
   <main>
     <MoviesNew v-on:createMovie="handeCreateMovie"/>
-    <MoviesIndex v-bind:movies="movies" />
+    <MoviesIndex v-bind:movies="movies" v-on:showMovie="handleShowMovie"/>
+    <Modal v-bind:show="isMoviesShowVisible" v-on:close="handleClose">
+      <MoviesShow v-bind:movie="currentMovie"/>
+    </Modal>
   </main>
 </template>
 

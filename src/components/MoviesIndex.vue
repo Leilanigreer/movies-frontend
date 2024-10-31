@@ -13,6 +13,7 @@ export default {
       <h2>{{movie.name}}</h2>
       <p> Year: {{ movie.year }}</p>
       <p> Genre: {{ movie.genre }}</p>
+      <button v-on:click="$emit('showMovie', movie)"> Show More </button>
     </div>
   </div>
 </template>
