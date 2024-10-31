@@ -67,6 +67,14 @@ export default {
           console.log("movies update error", error.response);
         });
     },
+    handleDestroyMovie: function (movie) {
+      axios.delete(`http://localhost:5000/movies/${movie.id}.json`).then((response) => {
+        console.log("movies destroy", response);
+        var index = this.movies.indexOf(movie);
+        this.movies.splice(index, 1);
+        this.handleClose();
+      });
+    },
     handleClose: function () {
       this.isMoviesShowVisible = false;
     },
@@ -79,7 +87,8 @@ export default {
     <MoviesNew v-on:createMovie="handeCreateMovie"/>
     <MoviesIndex v-bind:movies="movies" v-on:showMovie="handleShowMovie"/>
     <Modal v-bind:show="isMoviesShowVisible" v-on:close="handleClose">
-      <MoviesShow v-bind:movie="currentMovie" v-on:updateMovie="handleUpdateMovie"/>
+      <MoviesShow v-bind:movie="currentMovie" v-on:updateMovie="handleUpdateMovie"
+      v-on:destroyMovie="handleDestroyMovie"/>
     </Modal>
   </main>
 </template>

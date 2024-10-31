@@ -9,6 +9,8 @@ export default {
     };
   },
   created: function () {
+    console.log("FIRST", this.movie);
+    console.log("SECOND", { ...this.movie });
     this.editMovieParams = { ...this.movie };
   },
   methods: {
@@ -40,6 +42,7 @@ export default {
       </div>
       <button type="submit">Update Movie</button>
     </form>
+    <button v-on:click="$emit('destroyMovie', movie)">Destroy movie</button>
   </div>
 </template>
 
