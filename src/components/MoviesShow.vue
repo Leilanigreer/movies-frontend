@@ -3,6 +3,19 @@ export default {
   props: {
     movie: Object,
   },
+  data: function () {
+    return {
+      editMovieParams: {},
+    };
+  },
+  created: function () {
+    this.editMovieParams = { ...this.movie };
+  },
+  methods: {
+    handleSubmit: function () {
+      this.$emit("updateMovie", this.movie.id, this.editMovieParams);
+    },
+  },
 };
 </script>
 
@@ -12,6 +25,21 @@ export default {
     <p>Name: {{ movie.name }}</p>
     <p>Year: {{ movie.year }}</p>
     <p>Genre: {{ movie.genre }}</p>
+    <form v-on:submit.prevent="handleSubmit">
+      <div>
+        Name:
+        <input v-model="editMovieParams.name" type="text" />
+      </div>
+      <div>
+        Year:
+        <input v-model="editMovieParams.year" type="text" />
+      </div>
+      <div>
+        Genre:
+        <input v-model="editMovieParams.genre" type="text" />
+      </div>
+      <button type="submit">Update Movie</button>
+    </form>
   </div>
 </template>
 

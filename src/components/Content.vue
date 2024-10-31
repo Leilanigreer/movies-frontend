@@ -48,6 +48,25 @@ export default {
       this.currentMovie = movie;
       this.isMoviesShowVisible = true;
     },
+    handleUpdateMovie: function (id, params) {
+      console.log("handleUpdateMovie", id, params);
+      axios
+        .patch(`http://localhost:5000/movies/${id}.json`, params)
+        .then((response) => {
+          console.log("movies update", response);
+          this.movies = this.movies.map((movie) => {
+            if (movie.id === response.data.id) {
+              return response.data;
+            } else {
+              return movie;
+            }
+          });
+          this.handleClose();
+        })
+        .catch((error) => {
+          console.log("movies update error", error.response);
+        });
+    },
     handleClose: function () {
       this.isMoviesShowVisible = false;
     },
@@ -60,7 +79,7 @@ export default {
     <MoviesNew v-on:createMovie="handeCreateMovie"/>
     <MoviesIndex v-bind:movies="movies" v-on:showMovie="handleShowMovie"/>
     <Modal v-bind:show="isMoviesShowVisible" v-on:close="handleClose">
-      <MoviesShow v-bind:movie="currentMovie"/>
+      <MoviesShow v-bind:movie="currentMovie" v-on:updateMovie="handleUpdateMovie"/>
     </Modal>
   </main>
 </template>
